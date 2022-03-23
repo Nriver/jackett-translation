@@ -32,6 +32,7 @@ translation_dict = {
     'Admin password: ': '管理员密码:',
     '  Set Password ': '设置密码',
     'Base path override: ': '基本路径覆盖:',
+    'Base URL override: ': '基本URL覆盖:',
     'Server port: ': '服务器端口:',
     'Blackhole directory: ': 'Blackhole 目录:',
     'Proxy type: ': '代理类型:',

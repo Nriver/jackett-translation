@@ -123,6 +123,7 @@ translation = [
     '>[[Admin password: ]]<',
     '>[[  Set Password ]]<',
     '>[[Base path override: ]]<',
+    '>[[Base URL override: ]]<',
     '>[[Server port: ]]<',
     '>[[Blackhole directory: ]]<',
     '>[[Proxy type: ]]<',
