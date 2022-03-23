@@ -2,6 +2,7 @@ import os
 import platform
 import re
 import shutil
+from pathlib import Path
 
 from loguru import logger
 
@@ -11,7 +12,7 @@ from translations import translation_dict
 script_path = os.path.dirname(os.path.abspath(__file__))
 
 BASE_PATH = f'{BASE_FOLDER}Jackett-src/'
-os.chdir(BASE_PATH)
+# os.chdir(BASE_PATH)
 
 TRANSLATOR_LABEL = translation_dict['translator']
 
@@ -31,7 +32,14 @@ def translate(m):
     return trans
 
 
-def replace_in_file(file_path, translation, base_path=BASE_PATH):
+def make_parent_folder(output_path):
+    # 对文件生成父级目录，防止不存在报错
+    parent_folder = Path(output_path).parent.absolute()
+    if not os.path.exists(parent_folder):
+        os.makedirs(parent_folder)
+
+
+def replace_in_file(file_path, translation, base_path=BASE_PATH, output_path=None):
     file_full_path = os.path.join(base_path, file_path)
     if not os.path.exists(file_full_path):
         missing_files.append(file_full_path)
@@ -50,16 +58,26 @@ def replace_in_file(file_path, translation, base_path=BASE_PATH):
 
         content = content.replace(ori_content, trans)
 
-    with open(file_full_path, 'w') as f:
+    if not output_path:
+        output_path = file_full_path
+
+    print(f'写入文件 {output_path}')
+    # print(content)
+    make_parent_folder(output_path)
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
+
+# 创建补丁文件, 可以直接用在其它release里
+# make patch files, which can be used by other platform release
+if os.path.exists(PATCH_FOLDER):
+    shutil.rmtree(PATCH_FOLDER)
+os.mkdir(PATCH_FOLDER)
 
 # TODO: 关于页面添加翻译者信息
 # add translator info in about page :)
 logger.info(f"{'add translator info in about page.'}")
 translator_info = f'{TRANSLATOR} {TRANSLATOR_URL} {LANG}'
-
-modded_file_list = []
 
 # 下面一堆是正则匹配规则, 读代码的时候下面这一段可以跳过, 直接看最后面几行
 # TL;DR, the following codes are regex matches, you can jump to the last few lines.
@@ -90,9 +108,12 @@ translation = [
     # 表格显示条数
     ', "[[All]]"]',
     "nonSelectedText: '[[All]]'",
+    # 特殊标签
+    '"[[public]]"',
+    '"[[private]]"',
+    '"[[semi-private]]"',
 ]
-replace_in_file(file_path, translation)
-modded_file_list.append(file_path)
+replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
 file_path = 'src/Jackett.Common/Content/index.html'
 translation = [
@@ -203,16 +224,14 @@ translation = [
     '        [[Test]]',
     '"[[Blank for default]]"',
 ]
-replace_in_file(file_path, translation)
-modded_file_list.append(file_path)
+replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
 file_path = 'src/Jackett.Common/Content/libs/bootstrap-notify.js'
 translation = [
     '>[[{1}]]<',
     '>[[{2}]]<',
 ]
-replace_in_file(file_path, translation)
-modded_file_list.append(file_path)
+replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
 file_path = 'src/Jackett.Common/Content/login.html'
 translation = [
@@ -220,8 +239,7 @@ translation = [
     '>[[Login]]<',
     '>[[Admin password]]<',
 ]
-replace_in_file(file_path, translation)
-modded_file_list.append(file_path)
+replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
 file_path = 'src/Jackett.Common/Content/libs/jquery.dataTables.min.js'
 translation = [
@@ -241,22 +259,61 @@ translation = [
     'sSearch:"[[Search:]]",',
     'sZeroRecords:"[[No matching records found]]"',
 ]
-replace_in_file(file_path, translation)
-modded_file_list.append(file_path)
+replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
-# 创建补丁文件, 可以直接用在其它release里
-# make patch files, which can be used by other platform release
-if os.path.exists(PATCH_FOLDER):
-    shutil.rmtree(PATCH_FOLDER)
-os.mkdir(PATCH_FOLDER)
 
-for file_path in modded_file_list:
-    src = BASE_PATH + file_path
-    dst = PATCH_FOLDER + file_path
-    os.makedirs(os.path.dirname(dst), exist_ok=True)
-    shutil.copy(src, dst)
+def mass_trans_yml(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
+        content = f.read()
+        res = re.findall('^type: (.*)', content, re.MULTILINE)
+        for x in res:
+            try:
+                content = re.sub('^type: ' + x, 'type: ' + translation_dict[x], content, flags=re.MULTILINE | re.DOTALL)
+            except:
+                pass
+
+        return content
+
+
+# ============ Definitions ===============
+
+def_folder = BASE_PATH + 'src/Jackett.Common/Definitions/'
+# 批量替换
+for x in os.listdir(def_folder):
+    yml_file = def_folder + x
+    content = mass_trans_yml(yml_file)
+
+    output_path = PATCH_FOLDER + yml_file.replace(BASE_PATH, '')
+    make_parent_folder(output_path)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+
+def load_js(js_file_path, indent):
+    with open(js_file_path, 'r', encoding='utf-8') as f:
+        res = '\n'
+        for line in f:
+            res += ' ' * indent + line
+        return res
+
+
+# 存在硬编码的数据，需要直接修改js做修正
+with open(f'{PATCH_FOLDER}src/Jackett.Common/Content/custom.js', 'r', encoding='utf-8') as f:
+    content = f.read()
+    # key_code = 'if (item.type == "public") {'
+    key_code = 'if (item.type == "公开") {'
+    if key_code in content:
+        indent = 12
+        code = load_js('js_codes/item_type_fix.txt', indent=indent)
+        # 空格对齐
+        code += '\n' + ' ' * indent
+        content = content.replace(key_code, code + key_code)
+with open(f'{PATCH_FOLDER}src/Jackett.Common/Content/custom.js', 'w', encoding='utf-8') as f:
+    f.write(content)
+
 # 把文件夹移出来
 shutil.move(PATCH_FOLDER + 'src/Jackett.Common/Content', PATCH_FOLDER)
+shutil.move(PATCH_FOLDER + 'src/Jackett.Common/Definitions', PATCH_FOLDER)
 shutil.rmtree(PATCH_FOLDER + 'src')
 
 if missing_files:
@@ -268,3 +325,4 @@ logger.info(f"{'finished!'}")
 
 if platform.system() == 'Linux':
     os.system(f'xdg-open {PATCH_FOLDER}')
+    os.system(f'cp -rf {PATCH_FOLDER}/* /home/nate/soft/Jackett/current')

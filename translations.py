@@ -143,4 +143,11 @@ translation_dict = {
     'Redirecting you to complete configuration update..': '等待重定向以完成配置更新..',
     'Updater triggered see log for details..': '触发了更新, 查看日志以了解详细信息..',
     'Admin password has been set.': '管理员密码已设置.',
+    'public': '公开',
+    'private': '私密',
+    'semi-private': '半私密',
+    'Public': '公开',
+    'Private': '私密',
+    'Semi-Private': '半私密',
+    '': '',
 }
