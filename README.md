@@ -2,6 +2,8 @@
 
 jackett 汉化
 
+<a href="https://count.getloli.com"><img align="center" src="https://count.getloli.com/get/@Nriver_jackett-translation"></a><br>
+
 # 截图
 
 主界面
