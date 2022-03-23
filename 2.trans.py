@@ -308,6 +308,15 @@ with open(f'{PATCH_FOLDER}src/Jackett.Common/Content/custom.js', 'r', encoding='
         # 空格对齐
         code += '\n' + ' ' * indent
         content = content.replace(key_code, code + key_code)
+
+    key_code = 'item.mains_cats = $.unique(main_cats_list).join(", ");'
+    if key_code in content:
+        indent = 12
+        code = load_js('js_codes/item_category_fix.txt', indent=indent)
+        # 空格对齐
+        code += '\n' + ' ' * indent
+        content = content.replace(key_code, code)
+
 with open(f'{PATCH_FOLDER}src/Jackett.Common/Content/custom.js', 'w', encoding='utf-8') as f:
     f.write(content)
 
