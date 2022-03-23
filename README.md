@@ -5,7 +5,7 @@ jackett 汉化
 # 食用方法
 
 1. 下载[原版](https://github.com/Jackett/Jackett/releases)
-2. 下载[汉化包](https://github.com/Nriver/jackett-translation/releases), 解压覆盖原版对应的目录
+2. 下载[汉化包 jackett-cn-patch.zip](https://github.com/Nriver/jackett-translation/releases), 解压覆盖原版对应的目录
 
 # 打包流程
 

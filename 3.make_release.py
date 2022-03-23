@@ -16,7 +16,7 @@ COMPRESS_LEVEL = 9
 def make_patch():
     # 打zip包
     # make zip
-    new_name = f'jackett-{LANG}-翻译补丁.zip'
+    new_name = f'jackett-{LANG}-patch.zip'
     print('new_name', new_name)
     os.system(f'rm -f {new_name}')
     os.chdir(TRANS_RELEASE_FOLDER)
