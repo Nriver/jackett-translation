@@ -149,5 +149,7 @@ translation_dict = {
     'Public': '公开',
     'Private': '私密',
     'Semi-Private': '半私密',
+    'Your search was done using': '搜索结果来自于',
+    'WARNING: The proxy option potentially leaks requests. Recommendation is to use a VPN.': '警告: 代理可能会泄漏请求, 推荐使用VPN.',
     '': '',
 }

@@ -213,6 +213,8 @@ translation = [
     'title="[[Download locally (magnet)]]"',
     'title="[[Save to server blackhole directory]]"',
     'placeholder="[[Blank to disable]]"',
+    '[[Your search was done using]]:',
+    '[[WARNING: The proxy option potentially leaks requests. Recommendation is to use a VPN.]]',
     # 以下为不规则内容
     '> [[Add indexer]]',
     '> [[Manual Search]]',
@@ -223,6 +225,7 @@ translation = [
     '>[[Copy Potato Feed]]<',
     '        [[Test]]',
     '"[[Blank for default]]"',
+
 ]
 replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
