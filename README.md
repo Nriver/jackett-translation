@@ -2,6 +2,8 @@
 
 jackett 汉化
 
+如果你喜欢，请给个star :)
+
 <a href="https://count.getloli.com"><img align="center" src="https://count.getloli.com/get/@Nriver_jackett-translation"></a><br>
 
 # 截图

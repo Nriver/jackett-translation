@@ -204,6 +204,7 @@ translation = [
     '>[[Description]]<',
     '>[[Filter ]]<',
     '>[[All]]<',
+    'title="[[Copy API Key to clipboard]]"',
     'title="[[Jackett on GitHub]]"',
     'title="[[Search]]"',
     'title="[[Configure]]"',

@@ -42,6 +42,6 @@ TRANSLATOR_URL = 'https://github.com/Nriver/Jackett-translation'
 # USE_PROXY = True
 USE_PROXY = False
 PROXIES = {
-    "http": "socks5://127.0.0.1:10808",
-    "https": "socks5://127.0.0.1:10808"
+    "http": "http://127.0.0.1:10809",
+    "https": "http://127.0.0.1:10809"
 }

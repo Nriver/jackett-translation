@@ -151,5 +151,6 @@ translation_dict = {
     'Semi-Private': '半私密',
     'Your search was done using': '搜索结果来自于',
     'WARNING: The proxy option potentially leaks requests. Recommendation is to use a VPN.': '警告: 代理可能会泄漏请求, 推荐使用VPN.',
+    'Copy API Key to clipboard': '复制API密钥到剪贴板',
     '': '',
 }
