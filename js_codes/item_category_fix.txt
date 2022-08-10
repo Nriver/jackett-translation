@@ -1,0 +1,20 @@
+//item.mains_cats = $.unique(main_cats_list).join(", ");
+
+var cat_dict = {
+    "Console": "游戏机",
+    "Movies": "电影",
+    "Audio": "音频",
+    "PC": "计算机",
+    "TV": "电视剧",
+    "XXX": "XXX",
+    "Books": "电子书",
+    "Other": "其它",
+    "Custom": "自定义类型",
+}
+
+var mains_cats = [];
+$.unique(main_cats_list).forEach(function (cat) {
+    console.log(cat);
+    mains_cats.push(cat_dict[cat]);
+});
+item.mains_cats = mains_cats.join(", ");
