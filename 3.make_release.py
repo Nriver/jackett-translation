@@ -32,12 +32,17 @@ def make_patch():
 
 if __name__ == '__main__':
 
-    a = input(f'Delete folder {TRANS_RELEASE_FOLDER}, continue?(y)')
-    if a not in ['y', ]:
-        exit()
+    if 'GITHUB_ACTIONS' in os.environ:
+        print('当前在Github Actions中运行')
+    else:
+        print('当前在本地电脑上运行')
+        a = input(f'Delete folder {TRANS_RELEASE_FOLDER}, continue?(y)')
+        if a not in ['y', ]:
+            exit()
 
     os.system(f'rm -rf {TRANS_RELEASE_FOLDER}')
     os.makedirs(f'{TRANS_RELEASE_FOLDER}')
     os.chdir(TRANS_RELEASE_FOLDER)
     make_patch()
-    os.system(f'xdg-open {TRANS_RELEASE_FOLDER}')
+    if 'GITHUB_ACTIONS' not in os.environ:
+        os.system(f'xdg-open {TRANS_RELEASE_FOLDER}')

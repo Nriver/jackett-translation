@@ -337,5 +337,6 @@ if missing_files:
 logger.info(f"{'finished!'}")
 
 if platform.system() == 'Linux':
-    os.system(f'xdg-open {PATCH_FOLDER}')
+    if 'GITHUB_ACTIONS' not in os.environ:
+        os.system(f'xdg-open {PATCH_FOLDER}')
     os.system(f'cp -rf {PATCH_FOLDER}/* /home/nate/soft/Jackett/current')

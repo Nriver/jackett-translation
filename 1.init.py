@@ -95,10 +95,16 @@ def decompress_source_package(file_name):
 
 
 if __name__ == '__main__':
-    if os.path.exists(BASE_FOLDER):
-        if not (input(f'BASE_FOLDER exists! DELETE {BASE_FOLDER}, continue?(y)')).lower() in ['y', 'yes']:
-            exit()
+    if 'GITHUB_ACTIONS' in os.environ:
+        print('当前在Github Actions中运行')
         os.system(f'rm -rf {BASE_FOLDER}')
+    else:
+        print('当前在本地电脑上运行')
+        if os.path.exists(BASE_FOLDER):
+            if not (input(f'BASE_FOLDER exists! DELETE {BASE_FOLDER}, continue?(y)')).lower() in ['y', 'yes']:
+                exit()
+            os.system(f'rm -rf {BASE_FOLDER}')
+
     os.makedirs(BASE_FOLDER)
     logger.info(f"{'BASE_FOLDER', BASE_FOLDER}")
     os.chdir(BASE_FOLDER)
