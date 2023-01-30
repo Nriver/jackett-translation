@@ -94,6 +94,20 @@ def decompress_source_package(file_name):
             os.system(f'mv {extracted_folder} Jackett-src')
 
 
+def decompress_win_package(file_name):
+    if file_name.endswith('.zip'):
+        with ZipFile(file_name, 'r') as zip_file:
+            # printing all the contents of the zip file
+            extracted_folder = zip_file.namelist()[0].split('/')[0]
+        if extracted_folder:
+            os.system(f'unzip -o {file_name}')
+            os.system('pwd')
+            if DO_DELETE:
+                os.system(f'rm -rf Jackett-cn.zip')
+            logger.info(f'{extracted_folder}')
+            os.system(f'mv {extracted_folder} Jackett')
+
+
 if __name__ == '__main__':
     if 'GITHUB_ACTIONS' in os.environ:
         print('当前在Github Actions中运行')
@@ -118,5 +132,17 @@ if __name__ == '__main__':
     file_name = download_source(version_info['zipball_url'], 'Jackett-src.zip')
     logger.info(f'file_name {file_name}')
     decompress_source_package(file_name)
+
+    # 下载windows版
+    file_name = download_source(version_info['browser_download_url'], 'Jackett-cn.zip')
+    logger.info(f'file_name {file_name}')
+    decompress_win_package(file_name)
+
+    # 记录最新版本号
+    # record version number
+    script_path = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(script_path)
+    with open('VERSION', 'w') as f:
+        f.write(version_info['name'][1:])
 
     logger.info(f"{'finished!'}")
