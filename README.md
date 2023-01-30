@@ -35,3 +35,22 @@ jackett 汉化
 
 一些文字是写死在c#代码里的, 由于没有方便的编译环境, 没有进行处理, 有想法的欢迎提pr.
 
+## 通过 Scoop 安装
+
+添加我的scoop源
+
+```
+scoop bucket add Scoop-Nriver https://github.com/nriver/Scoop-Nriver
+```
+
+安装 Jackett
+
+```
+scoop install jackett-cn
+```
+
+更新
+
+```
+scoop update jackett-cn
+```
