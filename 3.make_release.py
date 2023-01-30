@@ -33,7 +33,9 @@ def make_patch():
 def make_release_package():
     # 应用补丁
     # apply patch
-    os.system(f'cp -rf {PATCH_FOLDER}* "{BASE_FOLDER}/Jackett/"')
+    cmd = f'cp -rf {PATCH_FOLDER}* "{BASE_FOLDER}/Jackett/"'
+    print('cmd', cmd)
+    os.system(cmd)
 
     # 打zip包
     # make zip
