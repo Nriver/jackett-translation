@@ -153,6 +153,7 @@ translation = [
     '>[[Proxy username: ]]<',
     '>[[Proxy password: ]]<',
     '>[[External access: ]]<',
+    '>[[Allow CORS: ]]<',
     '>[[Disable auto update: ]]<',
     '>[[Update to pre-release: ]]<',
     '>[[Enhanced logging: ]]<',
@@ -246,13 +247,14 @@ replace_in_file(file_path, translation, output_path=PATCH_FOLDER + file_path)
 
 file_path = 'src/Jackett.Common/Content/libs/jquery.dataTables.min.js'
 translation = [
-    'sSortAscending:": [[activate to sort column ascending]]",',
-    'sSortDescending:": [[activate to sort column descending]]"',
+    # 'sSortAscending:": [[activate to sort column ascending]]",',
+    # 'sSortDescending:": [[activate to sort column descending]]"',
     'sFirst:"[[First]]",',
     'sLast:"[[Last]]"',
     'sNext:"[[Next]]",',
     'sPrevious:"[[Previous]]"',
-    'sEmptyTable:"[[No data available in table]]",',
+    # 'sEmptyTable:"[[No data available in table]]",',
+    '"[[No data available in table]]"',
     'sInfo:"[[Showing _START_ to _END_ of _TOTAL_ entries]]"',
     'sInfoEmpty:"[[Showing 0 to 0 of 0 entries]]",',
     'sInfoFiltered:"[[(filtered from _MAX_ total entries)]]"',
