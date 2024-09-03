@@ -68,7 +68,7 @@ jobs:
       - name: 在 ${{matrix.TARGET}} 上编译
         run: ${{matrix.CMD_BUILD}}
       - name: 从Release任务读取发布URL路径
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: release_url
       - name: 获取发布文件名和上传URL路径
